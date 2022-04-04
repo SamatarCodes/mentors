@@ -1,10 +1,10 @@
 <template>
   <section>
     <NavBar />
-    <div v-if="signingUp" class="pacman">
+    <div v-if="loginIn" class="pacman">
       <img src="../assets/pacman.svg" alt="pacman loader" />
     </div>
-    <form v-if="!signingUp" @submit.prevent="login">
+    <form v-if="!loginIn" @submit.prevent="login">
       <input type="hidden" />
       <h2>Login</h2>
       <label for="email">Email</label>
@@ -63,7 +63,7 @@ export default {
         password: '',
       },
       errorMessage: '',
-      signingUp: false,
+      loginIn: false,
     };
   },
   watch: {
@@ -94,7 +94,7 @@ export default {
       return false;
     },
     async login() {
-      this.signingUp = true;
+      this.loginIn = true;
       // 2. if user's input is validated, we can send it back to the database
       if (this.validateUser()) {
         const body = {
@@ -115,12 +115,11 @@ export default {
 
           // COMMENT - check if there's error messages
           if (data.errors) {
-            console.log('this');
             this.errorMessage = data.errors;
           }
           // COMMENT - if there's mentor property - redirect to homepage
           setTimeout(() => {
-            this.signingUp = false;
+            this.loginIn = false;
             if (data.mentor) {
               console.log(data.mentor);
               this.$router.push('/dashboard');
