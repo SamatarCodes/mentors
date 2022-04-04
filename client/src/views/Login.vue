@@ -6,7 +6,7 @@
       <h2>Login</h2>
       <label for="email">Email</label>
       <input
-        v-model="email"
+        v-model="user.email"
         type="email"
         name="email"
         id="email"
@@ -17,7 +17,7 @@
 
       <label for="password">Password</label>
       <input
-        v-model="password"
+        v-model="user.password"
         type="password"
         name="password"
         id="password"
@@ -55,6 +55,10 @@ export default {
   },
   data() {
     return {
+      user: {
+        email: '',
+        password: '',
+      },
       email: '',
       password: '',
       errorMessage: '',
@@ -73,8 +77,8 @@ export default {
     validateUser() {
       // 1. Make sure user's inputs are validated before we send it to the backend
       const result = schema.validate({
-        email: this.email,
-        password: this.password,
+        email: this.user.email,
+        password: this.user.password,
       });
       // if there's no errors, return true
       if (!result.error) {
@@ -88,11 +92,11 @@ export default {
       return false;
     },
     async login() {
-      // 2. if user's input is validated, we can now send it back to the database
+      // 2. if user's input is validated, we can send it back to the database
       if (this.validateUser()) {
         const body = {
-          email: this.email,
-          password: this.password,
+          email: this.user.email,
+          password: this.user.password,
         };
 
         // COMMENT - send it back to the database
