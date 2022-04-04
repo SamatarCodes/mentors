@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOME</title>
+</head>
+
+<body>
+
+    <h3>Homepage</h3>
+    <a href="/mentors/list">Access to List</a>
+    <button id="logout">Logout</button>
+
+    <script>
+        const logoutBtn = document.getElementById('logout');
+
+        // Add event listener 
+        logoutBtn.addEventListener('click', async (e) => {
+            try {
+                const result = await fetch('/mentors/logout', {
+                    method: 'POST',
+                    body: JSON.stringify(),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                const data = await result.json();
+                console.log(data)
+                if (data.mentor) location.assign('/mentors/login')
+                if (data.error) location.assign('/mentors/login')
+            } catch (error) {
+                console.log(error);
+            }
+        })
+    </script>
+</body>
+
+</html>
