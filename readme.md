@@ -1,4 +1,4 @@
-# Auth for Newbs
+# Auth for Vue
 
 Add JWT-based authentication to a Node/Express/Mongo app.
 
