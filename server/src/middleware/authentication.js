@@ -14,7 +14,7 @@ const authentication = async (req, res, next) => {
     // 1. When user logs in, they have to be authenticated
 
     //const token = req.header('Authorization').split(' ')[1];
-    // Get access to the token from the token
+    // Get access to the token from the cookie
     const token = req.cookies.jwt;
     // Verify the token and find thet user ID
     const decodedToken = await jwt.verify(

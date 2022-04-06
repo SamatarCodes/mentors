@@ -121,12 +121,16 @@ export default {
           setTimeout(() => {
             this.loginIn = false;
             if (data.mentor) {
-              console.log(data.mentor);
+              console.log(cookies.keys());
               this.$router.push('/dashboard');
             }
           }, 1000);
         } catch (error) {
-          console.log(error.message);
+          setTimeout(() => {
+            // if we get an error back from the server
+            this.loginIn = false;
+            this.errorMessage = error.message;
+          });
         }
       }
     },
