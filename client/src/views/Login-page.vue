@@ -38,7 +38,7 @@
 <script>
 // [x] Always add the LOGIN URL
 const LOGIN_URL = 'http://localhost:3000/mentors/login';
-import NavBar from '../components/NavBar.vue';
+import NavBar from '../components/Nav-Bar.vue';
 
 // COMMENT - require Joi validation
 const Joi = require('joi');
@@ -52,7 +52,7 @@ const schema = Joi.object({
 });
 
 export default {
-  name: 'Login',
+  name: 'Login-page',
   components: {
     NavBar,
   },
@@ -112,6 +112,7 @@ export default {
             },
           });
           const data = await result.json();
+          console.log(result);
 
           // COMMENT - check if there's error messages
           if (data.errors) {
@@ -121,7 +122,8 @@ export default {
           setTimeout(() => {
             this.loginIn = false;
             if (data.mentor) {
-              console.log(cookies.keys());
+              // console.log(cookies.keys());
+              //result.setHeader('authorization', `Bearer ${data.token}`);
               this.$router.push('/dashboard');
             }
           }, 1000);

@@ -64,6 +64,7 @@ router.post('/signup', async (req, res) => {
     // send a response to user
     //  res.status(201).json({ mentor, token });
     // if in the frontend, we get this back, it means its successfull
+
     res.status(201).json({ mentor: mentor.id });
   } catch (error) {
     const errors = handleErrors(error);
@@ -92,7 +93,7 @@ router.post('/login', async (req, res) => {
       maxAge: 1000 * 60 * 60 * 24,
     });
     // res.status(200).json({ mentor, token });
-    res.status(200).json({ mentor: mentor.id });
+    res.status(200).json({ mentor: mentor.id, token });
   } catch (error) {
     // Send back this errors
     res.status(400).json({ errors: error.message });
