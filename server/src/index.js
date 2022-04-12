@@ -10,7 +10,7 @@ const cors = require('cors');
 
 const corsOptions = {
   // let the client side localhost access to this backend server
-  origin: 'http://localhost:8081',
+  origin: 'http://localhost:8080',
 };
 // ----------------------------------------------------------------
 
@@ -30,6 +30,7 @@ app.use(cookieParser());
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+// app.use('/mentors', mentors);
 app.use('/mentors', mentors);
 // Protected routes
 app.use('/mentors/list', authentication, (req, res) => {

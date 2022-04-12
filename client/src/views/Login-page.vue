@@ -38,11 +38,12 @@
 <script>
 // [x] Always add the LOGIN URL
 const LOGIN_URL = 'http://localhost:3000/mentors/login';
+
 import NavBar from '../components/Nav-Bar.vue';
 
 // COMMENT - require Joi validation
 const Joi = require('joi');
-
+const axios = require('axios');
 const schema = Joi.object({
   email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { allow: false } })
@@ -68,16 +69,16 @@ export default {
   },
   watch: {
     // COMMENT - if email or password changes, clear the error message
-    email() {
-      this.errorMessage = '';
-    },
-    password() {
-      this.errorMessage = '';
+    user: {
+      handler() {
+        this.errorMessage = '';
+      },
+      deep: true,
     },
   },
   methods: {
     validateUser() {
-      // 1. Make sure user's inputs are validated before we send it to the backend
+      //  COMMENT 1. Make sure user's inputs are validated BEFORE we send it to the backend
       const result = schema.validate({
         email: this.user.email,
         password: this.user.password,
@@ -88,7 +89,7 @@ export default {
       }
       // if there's errors, display it to the user before sending it to the backend
       if (result.error.message.includes('password')) {
-        this.errorMessage = 'Password is invalid';
+        this.errorMessage = 'Wrong email or password';
       }
       // if we got here, it's because there's an error message
       return false;
@@ -104,26 +105,29 @@ export default {
 
         // COMMENT - send it back to the database
         try {
-          const result = await fetch(LOGIN_URL, {
-            method: 'POST',
-            body: JSON.stringify(body),
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-          const data = await result.json();
-          console.log(result);
+          // const response = await fetch(LOGIN_URL, {
+          //   method: 'POST',
+          //   body: JSON.stringify(body),
+          //   headers: {
+          //     'Content-Type': 'application/json',
+          //   },
+          // });
 
+          const response = await axios({
+            method: 'post',
+            url: LOGIN_URL,
+            data: body,
+          });
           // COMMENT - check if there's error messages
-          if (data.errors) {
-            this.errorMessage = data.errors;
-          }
-          // COMMENT - if there's mentor property - redirect to homepage
+          // if (response.data.errors) {
+          //   console.log('object');
+          //   this.errorMessage = response.data.errors;
+          // }
+          // COMMENT - if there's mentor property - redirect to dashboard
           setTimeout(() => {
             this.loginIn = false;
-            if (data.mentor) {
-              // console.log(cookies.keys());
-              //result.setHeader('authorization', `Bearer ${data.token}`);
+            if (response.data.mentor) {
+              console.log(response);
               this.$router.push('/dashboard');
             }
           }, 1000);
@@ -131,9 +135,17 @@ export default {
           setTimeout(() => {
             // if we get an error back from the server
             this.loginIn = false;
-            this.errorMessage = error.message;
-          });
+            console.log(error.response);
+            // this.errorMessage = error.message;
+            this.errorMessage = error.response.data.errors;
+          }, 500);
         }
+      } else {
+        // COMMENT - did not pass the Joi schema validation
+        setTimeout(() => {
+          this.loginIn = false;
+          this.errorMessage = 'Wrong email or password';
+        }, 500);
       }
     },
   },

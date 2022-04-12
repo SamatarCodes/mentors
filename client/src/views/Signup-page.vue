@@ -53,6 +53,7 @@
 // [x]: Clear passwordError property if user types
 
 const SIGNUP_URL = 'http://localhost:3000/mentors/signup';
+
 import NavBar from '../components/Nav-Bar.vue';
 
 export default {

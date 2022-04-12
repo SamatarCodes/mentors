@@ -82,7 +82,9 @@ mentorSchema.statics.login = async (email, password) => {
   const mentor = await Mentor.findOne({ email });
 
   // If you don't find the user, throw an Error
-  if (!mentor) throw new Error('Unable to login');
+  // if (!mentor) throw new Error('Unable to login user');
+  // don't provide more info than need to
+  if (!mentor) throw new Error('Wrong email or password');
 
   // if we do find a matching email, compare the password against it
   if (mentor) {
@@ -90,7 +92,7 @@ mentorSchema.statics.login = async (email, password) => {
     if (isMatch) {
       return mentor;
     } else {
-      throw new Error('Unable to login');
+      throw new Error('Wrong email or password');
     }
   }
 };

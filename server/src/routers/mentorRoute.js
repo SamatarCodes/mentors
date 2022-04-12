@@ -96,7 +96,7 @@ router.post('/login', async (req, res) => {
     res.status(200).json({ mentor: mentor.id, token });
   } catch (error) {
     // Send back this errors
-    res.status(400).json({ errors: error.message });
+    res.status(403).json({ errors: error.message });
   }
 });
 // ----------------------------------------------------------------
