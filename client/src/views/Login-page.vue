@@ -124,9 +124,10 @@ export default {
           //   this.errorMessage = response.data.errors;
           // }
           // COMMENT - if there's mentor property - redirect to dashboard
+          localStorage.token = response.data.token;
           setTimeout(() => {
             this.loginIn = false;
-            if (response.data.mentor) {
+            if (response.data.token) {
               console.log(response);
               this.$router.push('/dashboard');
             }

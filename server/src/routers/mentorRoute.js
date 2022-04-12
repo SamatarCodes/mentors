@@ -93,7 +93,7 @@ router.post('/login', async (req, res) => {
       maxAge: 1000 * 60 * 60 * 24,
     });
     // res.status(200).json({ mentor, token });
-    res.status(200).json({ mentor: mentor.id, token });
+    res.status(200).json({ token });
   } catch (error) {
     // Send back this errors
     res.status(403).json({ errors: error.message });
