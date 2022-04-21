@@ -10,7 +10,7 @@ const cors = require('cors');
 
 const corsOptions = {
   // let the client side localhost access to this backend server
-  origin: 'http://localhost:8080',
+  origin: 'http://localhost:8081',
 };
 // ----------------------------------------------------------------
 

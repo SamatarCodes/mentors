@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home-page.vue';
 import Login from '../views/Login-page.vue';
 import Signup from '../views/Signup-page.vue';
+import Dashboard from '../views/Dashboard-page.vue';
 
 const loggedInRedirectDashboard = (to, from, next) => {
   // if there is a token, redirect to dashboard
@@ -14,6 +15,17 @@ const loggedInRedirectDashboard = (to, from, next) => {
     next();
   }
 };
+
+const isLoggedIn = (to, from, next) => {
+  if (!localStorage.token) {
+    // if they don't have a token
+    next('/login');
+  } else {
+    // if they have a token? Then let them through
+    next();
+  }
+};
+
 const routes = [
   // PAGES
   {
@@ -32,6 +44,12 @@ const routes = [
     name: 'Signup-page',
     component: Signup,
     beforeEnter: loggedInRedirectDashboard,
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard-page',
+    component: Dashboard,
+    beforeEnter: isLoggedIn,
   },
 ];
 
